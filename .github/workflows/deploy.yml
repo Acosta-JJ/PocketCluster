@@ -21,11 +21,11 @@ jobs:
       uses: hashicorp/setup-terraform@v3
 
     - name: Terraform Init
-      working-directory: Terraform
+      working-directory: terraform
       run: terraform init
 
     - name: Terraform Plan
-      working-directory: Terraform
+      working-directory: terraform
       id: plan
       run: terraform plan -no-color
       continue-on-error: true
@@ -35,11 +35,11 @@ jobs:
       run: exit 1
 
     - name: Terraform Apply
-      working-directory: Terraform
+      working-directory: terraform
       run: terraform apply -auto-approve
 
     - name: Get kubeconfig
-      working-directory: Terraform
+      working-directory: terraform
       run: |
         CLUSTER_NAME=$(terraform output -raw cluster_name)
         aws eks update-kubeconfig --name $CLUSTER_NAME --region ${{ secrets.AWS_REGION }} 
